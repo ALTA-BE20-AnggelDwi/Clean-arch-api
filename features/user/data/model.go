@@ -30,3 +30,17 @@ func CoreToModel(input user.Core) User {
 		Role:        input.Role,
 	}
 }
+
+func (u User) ModelToCore() user.Core {
+	return user.Core{
+		ID:          u.ID,
+		Name:        u.Name,
+		Email:       u.Email,
+		Password:    u.Password,
+		Address:     u.Address,
+		PhoneNumber: u.PhoneNumber,
+		Role:        u.Role,
+		CreatedAt:   u.CreatedAt,
+		UpdatedAt:   u.UpdatedAt,
+	}
+}

@@ -94,3 +94,14 @@ func (repo *userQuery) Delete(id int) error {
 	}
 	return nil
 }
+
+// Login implements user.UserDataInterface.
+func (repo *userQuery) Login(email string, password string) (data *user.Core, err error) {
+	var userGorm User
+	tx := repo.db.Where("email = ? and password = ?", email, password).First(&userGorm)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	result := userGorm.ModelToCore()
+	return &result, nil
+}

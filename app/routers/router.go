@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"clean-arch/app/middlewares"
 	"clean-arch/features/user/data"
 	_userHandler "clean-arch/features/user/handler"
 	_userService "clean-arch/features/user/service"
@@ -25,16 +26,17 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	productHandlerAPI := _productHandler.NewProductHandler(productService)
 
 	// Definisikan rute untuk entitas User
+	e.POST("/login", userHandlerAPI.Login)
 	e.POST("/users", userHandlerAPI.CreateUser)
-	e.GET("/users", userHandlerAPI.GetAllUsers)
-	e.PUT("/users/:user_id", userHandlerAPI.Update)
-	e.DELETE("/users/:user_id", userHandlerAPI.DeleteUser)
+	e.GET("/users", userHandlerAPI.GetAllUsers, middlewares.JWTMiddleware())
+	e.PUT("/users/:user_id", userHandlerAPI.Update, middlewares.JWTMiddleware())
+	e.DELETE("/users/:user_id", userHandlerAPI.DeleteUser, middlewares.JWTMiddleware())
 
 	// Definisikan rute untuk entitas Product
 	e.POST("/products", productHandlerAPI.CreateProduct)
-	e.GET("/products", productHandlerAPI.GetAllProducts)
-	e.GET("/products/:product_id", productHandlerAPI.GetProductByID)
-	e.PUT("/products/:product_id", productHandlerAPI.UpdateProduct)
-	e.DELETE("/products/:product_id", productHandlerAPI.DeleteProduct)
-	e.GET("/users/:user_id/products", productHandlerAPI.GetProductsByUserID)
+	e.GET("/products", productHandlerAPI.GetAllProducts, middlewares.JWTMiddleware())
+	e.GET("/products/:product_id", productHandlerAPI.GetProductByID, middlewares.JWTMiddleware())
+	e.PUT("/products/:product_id", productHandlerAPI.UpdateProduct, middlewares.JWTMiddleware())
+	e.DELETE("/products/:product_id", productHandlerAPI.DeleteProduct, middlewares.JWTMiddleware())
+	e.GET("/users/:user_id/products", productHandlerAPI.GetProductsByUserID, middlewares.JWTMiddleware())
 }

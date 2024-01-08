@@ -20,6 +20,7 @@ type UserDataInterface interface {
 	SelectAll() ([]Core, error)
 	Update(id int, input Core) error
 	Delete(id int) error
+	Login(email, password string) (data *Core, err error)
 }
 
 // interface untuk Service Layer
@@ -28,4 +29,5 @@ type UserServiceInterface interface {
 	GetAll() ([]Core, error)
 	Update(id int, input Core) error
 	Delete(id int) error
+	Login(email, password string) (data *Core, token string, err error)
 }

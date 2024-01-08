@@ -11,6 +11,11 @@ type UserRequest struct {
 	Role        string `json:"role" form:"role"`
 }
 
+type LoginRequest struct {
+	Email    string `json:"email" form:"email"`
+	Password string `json:"password" form:"password"`
+}
+
 func RequestToCore(input UserRequest) user.Core {
 	return user.Core{
 		Name:        input.Name,
